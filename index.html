@@ -1,0 +1,3340 @@
+<!doctype html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Clean Oceans Campaign — Every second breath starts at sea</title>
+    <meta name="description"
+        content="Clean Oceans Campaign is a non-profit initiative intercepting plastic before it reaches the sea, restoring coastal ecosystems and teaching the next generation of ocean stewards." />
+    <meta name="theme-color" content="#03141C" />
+    <meta property="og:title" content="Clean Oceans Campaign" />
+    <meta property="og:description"
+        content="Intercept. Restore. Teach. Join the campaign to keep plastic out of the ocean." />
+    <meta property="og:type" content="website" />
+    <!-- TODO: add og:image (1200×630) and canonical URL before launch -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+
+    <script>
+        // Runs before paint: enables JS styles and resolves the motion preference (no flash of hidden content).
+        (function () {
+            var d = document.documentElement;
+            d.classList.remove('no-js'); d.classList.add('js');
+            var stored = null; try { stored = localStorage.getItem('co-motion'); } catch (e) { }
+            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            d.dataset.motion = stored ? stored : (reduce ? 'off' : 'on');
+        })();
+    </script>
+
+    <style>
+        /* =========================================================
+       1. DESIGN TOKENS
+       ========================================================= */
+        :root {
+            /* Colour — all text pairs verified ≥ 4.5:1, UI boundaries ≥ 3:1 */
+            --ink-950: #03141C;
+            /* page background              */
+            --ink-900: #062230;
+            /* surface                      */
+            --ink-800: #0B3242;
+            /* raised surface               */
+            --line: #5E7E84;
+            /* UI borders — 4.28:1 on ink   */
+            --line-soft: rgba(238, 244, 241, .12);
+            /* decorative dividers only */
+            --foam-50: #EEF4F1;
+            /* primary text  — 16.8:1       */
+            --foam-300: #A9C2C4;
+            /* secondary text — 9.99:1      */
+            --tide-400: #57D6CB;
+            /* accent / focus — 10.6:1      */
+            --coral-400: #FF7A59;
+            /* action colour  — 7.3:1       */
+            --sand-100: #F2EEE6;
+            /* light section                */
+            --sand-ink: #3D5A62;
+            /* muted text on sand — 6.4:1   */
+            --coral-700: #B8402A;
+            /* accent text on sand — 4.77:1 */
+            --tide-800: #0E6F6A;
+            /* accent text on sand — 5.18:1 */
+            --error: #FF8A8A;
+            /* error text on ink — ≥ 7:1    */
+
+            /* Type */
+            --f-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+            --f-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+            --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+            --f-body: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+            /* Fluid type scale (min @360px → max @1920px) */
+            --t-mega: clamp(3.25rem, min(1.2rem + 9.2vw, 15vh), 12.5rem);
+            --t-xxl: clamp(2.5rem, 1.4rem + 5vw, 7rem);
+            --t-xl: clamp(2rem, 1.3rem + 3vw, 4.5rem);
+            --t-l: clamp(1.5rem, 1.15rem + 1.5vw, 2.5rem);
+            --t-m: clamp(1.125rem, 1rem + .5vw, 1.5rem);
+            --t-body: clamp(1rem, .96rem + .2vw, 1.125rem);
+            --t-meta: .8125rem;
+
+            /* Spacing (8pt base, fluid section rhythm) */
+            --s-1: .25rem;
+            --s-2: .5rem;
+            --s-3: .75rem;
+            --s-4: 1rem;
+            --s-5: 1.5rem;
+            --s-6: 2rem;
+            --s-7: 3rem;
+            --s-8: 4rem;
+            --s-9: 6rem;
+            --section: clamp(5rem, 3rem + 8vw, 11rem);
+            --gutter: clamp(1.25rem, .8rem + 2vw, 3rem);
+            --max: 1680px;
+
+            /* Motion */
+            --ease-out: cubic-bezier(.16, 1, .3, 1);
+            --ease-io: cubic-bezier(.65, 0, .35, 1);
+            --d-fast: 180ms;
+            --d-med: 420ms;
+            --d-slow: 900ms;
+
+            --radius: 2px;
+            --header-h: 72px;
+        }
+
+        /* =========================================================
+       2. RESET & BASE
+       ========================================================= */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            scroll-padding-top: calc(var(--header-h) + 1rem);
+        }
+
+        html[data-motion="on"] {
+            scroll-behavior: smooth;
+        }
+
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            background: var(--ink-950);
+            color: var(--foam-50);
+            font-family: var(--f-body);
+            font-size: var(--t-body);
+            line-height: 1.6;
+            font-variation-settings: "wdth" 100;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            overflow-x: hidden;
+        }
+
+        img,
+        svg,
+        video,
+        canvas {
+            display: block;
+            max-width: 100%;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        p,
+        ul,
+        ol,
+        figure,
+        blockquote,
+        dl,
+        dd {
+            margin: 0;
+        }
+
+        ul[role="list"],
+        ol[role="list"] {
+            list-style: none;
+            padding: 0;
+        }
+
+        a {
+            color: inherit;
+            text-decoration-thickness: 1px;
+            text-underline-offset: .2em;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        ::selection {
+            background: var(--tide-400);
+            color: var(--ink-950);
+        }
+
+        /* Focus — WCAG 2.4.7 / 2.4.11 / 2.4.13: 2px solid, offset, high contrast */
+        :focus {
+            outline: none;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--tide-400);
+            outline-offset: 3px;
+            border-radius: 2px;
+        }
+
+        .on-light :focus-visible {
+            outline-color: var(--ink-950);
+        }
+
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .skip-link {
+            position: fixed;
+            left: var(--s-4);
+            top: var(--s-4);
+            z-index: 1000;
+            padding: var(--s-3) var(--s-5);
+            background: var(--foam-50);
+            color: var(--ink-950);
+            font-weight: 700;
+            text-decoration: none;
+            transform: translateY(-200%);
+            transition: transform var(--d-fast) var(--ease-out);
+        }
+
+        .skip-link:focus-visible {
+            transform: none;
+            outline-color: var(--coral-400);
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: var(--max);
+            margin-inline: auto;
+            padding-inline: var(--gutter);
+        }
+
+        .section {
+            padding-block: var(--section);
+            position: relative;
+        }
+
+        /* Editorial primitives */
+        .eyebrow {
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--foam-300);
+            display: inline-flex;
+            gap: .75em;
+            align-items: center;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 1.5rem;
+            height: 1px;
+            background: currentColor;
+        }
+
+        .display {
+            font-family: var(--f-display);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-variation-settings: "wdth" 72;
+            line-height: .88;
+            letter-spacing: -.01em;
+        }
+
+        .serif {
+            font-family: var(--f-serif);
+            font-style: italic;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .display+.lede,
+        .display+p.lede {
+            margin-top: var(--s-5);
+        }
+
+        .lede {
+            font-size: var(--t-m);
+            line-height: 1.45;
+            color: var(--foam-300);
+            max-width: 38ch;
+        }
+
+        .meta {
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            color: var(--foam-300);
+            letter-spacing: .04em;
+        }
+
+        /* =========================================================
+       3. BUTTONS & LINKS
+       ========================================================= */
+        .btn {
+            --bg: var(--coral-400);
+            --fg: var(--ink-950);
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .6em;
+            min-height: 48px;
+            padding: .85rem 1.5rem;
+            border: 1px solid var(--bg);
+            border-radius: 999px;
+            background: var(--bg);
+            color: var(--fg);
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: .01em;
+            text-decoration: none;
+            overflow: hidden;
+            isolation: isolate;
+            transition: color var(--d-med) var(--ease-out), border-color var(--d-med) var(--ease-out), transform var(--d-fast);
+        }
+
+        .btn::before {
+            /* fill wipe */
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: var(--foam-50);
+            transform: translateY(101%);
+            transition: transform var(--d-med) var(--ease-out);
+        }
+
+        .btn:hover::before,
+        .btn:focus-visible::before {
+            transform: translateY(0);
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+            border-color: var(--foam-50);
+        }
+
+        .btn:active {
+            transform: scale(.97);
+        }
+
+        .btn .arrow {
+            transition: transform var(--d-med) var(--ease-out);
+        }
+
+        .btn:hover .arrow,
+        .btn:focus-visible .arrow {
+            transform: translateX(4px);
+        }
+
+        .btn--ghost {
+            --bg: transparent;
+            --fg: var(--foam-50);
+            border-color: var(--line);
+        }
+
+        .btn--ghost:hover,
+        .btn--ghost:focus-visible {
+            color: var(--ink-950);
+        }
+
+        .btn--sm {
+            min-height: 44px;
+            padding: .6rem 1.1rem;
+            font-size: .9375rem;
+        }
+
+        .link-u {
+            /* animated underline link */
+            text-decoration: none;
+            background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+            transition: background-size var(--d-med) var(--ease-out);
+            padding-bottom: 2px;
+        }
+
+        .link-u:hover,
+        .link-u:focus-visible {
+            background-size: 0 1px;
+            background-position: 100% 100%;
+        }
+
+        /* =========================================================
+       4. INTRO CURTAIN (non-blocking — never gates content)
+       ========================================================= */
+        .curtain {
+            position: fixed;
+            inset: 0;
+            z-index: 900;
+            background: var(--ink-950);
+            display: grid;
+            place-items: center;
+            pointer-events: none;
+        }
+
+        .curtain__word {
+            font-size: var(--t-xl);
+            overflow: hidden;
+        }
+
+        .curtain__word span {
+            display: inline-block;
+        }
+
+        html.no-js .curtain,
+        html[data-motion="off"] .curtain {
+            display: none;
+        }
+
+        html[data-motion="on"] .curtain {
+            animation: curtain-up 900ms var(--ease-io) 700ms forwards;
+        }
+
+        html[data-motion="on"] .curtain__word span {
+            animation: rise 700ms var(--ease-out) both;
+        }
+
+        @keyframes curtain-up {
+            to {
+                transform: translateY(-100%);
+                visibility: hidden;
+            }
+        }
+
+        @keyframes rise {
+            from {
+                transform: translateY(110%);
+            }
+
+            to {
+                transform: none;
+            }
+        }
+
+        /* =========================================================
+       5. HEADER / NAVIGATION
+       ========================================================= */
+        .site-header {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 100;
+            height: var(--header-h);
+            transition: background var(--d-med), transform var(--d-med) var(--ease-out), border-color var(--d-med);
+            border-bottom: 1px solid transparent;
+        }
+
+        .site-header.is-scrolled {
+            background: rgba(3, 20, 28, .82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-color: var(--line-soft);
+        }
+
+        .site-header.is-hidden {
+            transform: translateY(-100%);
+        }
+
+        .site-header:focus-within {
+            transform: none;
+        }
+
+        /* WCAG 2.4.11: focus never obscured */
+        .site-header .wrap {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--s-5);
+        }
+
+        .brand {
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            text-decoration: none;
+            font-family: var(--f-display);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-variation-settings: "wdth" 80;
+            letter-spacing: .02em;
+            min-height: 44px;
+        }
+
+        .brand svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .nav {
+            display: none;
+        }
+
+        .nav ul {
+            display: flex;
+            gap: clamp(1rem, 2vw, 2.25rem);
+        }
+
+        .nav a {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            text-decoration: none;
+            color: var(--foam-300);
+            transition: color var(--d-fast);
+        }
+
+        .nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            height: 1px;
+            background: var(--tide-400);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform var(--d-med) var(--ease-out);
+        }
+
+        .nav a:hover,
+        .nav a:focus-visible,
+        .nav a[aria-current] {
+            color: var(--foam-50);
+        }
+
+        .nav a:hover::after,
+        .nav a:focus-visible::after,
+        .nav a[aria-current]::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--s-3);
+        }
+
+        .motion-toggle,
+        .menu-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            min-height: 44px;
+            min-width: 44px;
+            padding: 0 .9rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: transparent;
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            transition: border-color var(--d-fast), background var(--d-fast);
+        }
+
+        .motion-toggle:hover,
+        .menu-btn:hover {
+            border-color: var(--foam-50);
+        }
+
+        .motion-toggle .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--tide-400);
+        }
+
+        .motion-toggle[aria-pressed="true"] .dot {
+            background: var(--foam-300);
+            box-shadow: inset 0 0 0 2px var(--ink-950);
+        }
+
+        .motion-toggle .label-long {
+            display: none;
+        }
+
+        .donate-desktop {
+            display: none;
+        }
+
+        @media (min-width: 960px) {
+            .nav {
+                display: block;
+            }
+
+            .menu-btn {
+                display: none;
+            }
+
+            .donate-desktop {
+                display: inline-flex;
+            }
+
+            .motion-toggle .label-long {
+                display: inline;
+            }
+        }
+
+        /* Mobile menu — native <dialog>: focus trap, Esc, inert background for free */
+        .menu {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: none;
+            height: 100dvh;
+            max-height: none;
+            border: 0;
+            background: var(--ink-950);
+            color: var(--foam-50);
+        }
+
+        .menu::backdrop {
+            background: rgba(3, 20, 28, .6);
+        }
+
+        .menu[open] {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--header-h);
+            padding-inline: var(--gutter);
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .menu nav {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: var(--gutter);
+        }
+
+        .menu nav ol {
+            counter-reset: m;
+            display: grid;
+            gap: var(--s-2);
+        }
+
+        .menu nav a {
+            counter-increment: m;
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            min-height: 48px;
+            text-decoration: none;
+            font-size: clamp(2.25rem, 10vw, 4rem);
+        }
+
+        .menu nav a::before {
+            content: "0" counter(m);
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            color: var(--foam-300);
+            font-weight: 400;
+        }
+
+        .menu__foot {
+            padding: var(--gutter);
+            border-top: 1px solid var(--line-soft);
+            display: grid;
+            gap: var(--s-4);
+        }
+
+        html[data-motion="on"] .menu[open] nav li {
+            animation: menu-in 600ms var(--ease-out) both;
+        }
+
+        html[data-motion="on"] .menu[open] nav li:nth-child(2) {
+            animation-delay: 60ms;
+        }
+
+        html[data-motion="on"] .menu[open] nav li:nth-child(3) {
+            animation-delay: 120ms;
+        }
+
+        html[data-motion="on"] .menu[open] nav li:nth-child(4) {
+            animation-delay: 180ms;
+        }
+
+        html[data-motion="on"] .menu[open] nav li:nth-child(5) {
+            animation-delay: 240ms;
+        }
+
+        @keyframes menu-in {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+        }
+
+        /* =========================================================
+       6. HERO
+       ========================================================= */
+        .hero {
+            position: relative;
+            min-height: 100svh;
+            display: flex;
+            align-items: flex-end;
+            padding-block: calc(var(--header-h) + 3rem) var(--s-7);
+            overflow: hidden;
+        }
+
+        .hero__canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero__veil {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(120% 80% at 70% 20%, transparent 0 30%, rgba(3, 20, 28, .55) 70%), linear-gradient(to top, var(--ink-950) 0 8%, transparent 45%);
+            pointer-events: none;
+        }
+
+        .hero .wrap {
+            position: relative;
+            display: grid;
+            gap: var(--s-7);
+        }
+
+        .hero__top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: var(--s-4);
+        }
+
+        .hero h1 {
+            font-size: var(--t-mega);
+        }
+
+        .hero h1 .serif {
+            font-size: .82em;
+            color: var(--tide-400);
+        }
+
+        .line {
+            display: block;
+            overflow: hidden;
+            padding-bottom: .04em;
+        }
+
+        .line>span {
+            display: inline-block;
+        }
+
+        html.js[data-motion="on"] .hero .line>span {
+            transform: translateY(105%);
+            transition: transform 1.1s var(--ease-out);
+        }
+
+        html.js[data-motion="on"] .is-ready .hero .line>span {
+            transform: none;
+        }
+
+        html.js[data-motion="on"] .is-ready .hero .line:nth-child(2)>span {
+            transition-delay: 90ms;
+        }
+
+        html.js[data-motion="on"] .is-ready .hero .line:nth-child(3)>span {
+            transition-delay: 180ms;
+        }
+
+        .hero__bottom {
+            display: grid;
+            gap: var(--s-6);
+            align-items: end;
+        }
+
+        .hero__ctas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--s-3);
+        }
+
+        .scroll-cue {
+            display: none;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .scroll-cue i {
+            width: 1px;
+            height: 48px;
+            background: var(--line);
+            position: relative;
+            overflow: hidden;
+        }
+
+        html[data-motion="on"] .scroll-cue i::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--tide-400);
+            animation: cue 2.2s var(--ease-io) infinite;
+        }
+
+        @keyframes cue {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            60%,
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        @media (min-width: 900px) {
+            .hero__bottom {
+                grid-template-columns: 1.2fr 1fr auto;
+            }
+
+            .scroll-cue {
+                display: inline-flex;
+            }
+        }
+
+        /* =========================================================
+       7. MARQUEE
+       ========================================================= */
+        .marquee {
+            border-block: 1px solid var(--line-soft);
+            overflow: hidden;
+            padding-block: var(--s-5);
+        }
+
+        .marquee__track {
+            display: flex;
+            width: max-content;
+            gap: 3rem;
+        }
+
+        .marquee__group {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            font-size: var(--t-l);
+            white-space: nowrap;
+        }
+
+        .marquee__group span:nth-child(even) {
+            color: var(--tide-400);
+            font-family: var(--f-serif);
+            font-style: italic;
+            text-transform: none;
+            font-weight: 400;
+        }
+
+        .marquee__group .star {
+            color: var(--coral-400);
+            font-size: .6em;
+        }
+
+        html[data-motion="on"] .marquee__track {
+            animation: marquee 38s linear infinite;
+        }
+
+        .marquee:hover .marquee__track,
+        .marquee:focus-within .marquee__track {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee {
+            to {
+                transform: translateX(calc(-50% - 1.5rem));
+            }
+        }
+
+        html[data-motion="off"] .marquee__track {
+            flex-wrap: wrap;
+            width: auto;
+        }
+
+        html[data-motion="off"] .marquee__group[aria-hidden="true"] {
+            display: none;
+        }
+
+        /* =========================================================
+       8. MANIFESTO (scroll-lit words)
+       ========================================================= */
+        .manifesto__grid {
+            display: grid;
+            gap: var(--s-7);
+        }
+
+        .manifesto p.big {
+            font-size: var(--t-l);
+            line-height: 1.25;
+            font-weight: 500;
+            max-width: 30ch;
+        }
+
+        .manifesto .w {
+            transition: color 300ms linear;
+        }
+
+        html.js[data-motion="on"] .manifesto .w {
+            color: #36555D;
+        }
+
+        /* decorative dim; final state is full contrast */
+        html.js[data-motion="on"] .manifesto .w.lit {
+            color: var(--foam-50);
+        }
+
+        @media (min-width: 900px) {
+            .manifesto__grid {
+                grid-template-columns: 1fr 2.4fr;
+            }
+
+            .manifesto p.big {
+                font-size: var(--t-xl);
+            }
+        }
+
+        /* =========================================================
+       9. NUMBERS (light section)
+       ========================================================= */
+        .on-light {
+            background: var(--sand-100);
+            color: var(--ink-950);
+        }
+
+        .on-light .eyebrow,
+        .on-light .meta {
+            color: var(--sand-ink);
+        }
+
+        .on-light .lede {
+            color: var(--sand-ink);
+        }
+
+        .numbers__head {
+            display: grid;
+            gap: var(--s-5);
+            margin-bottom: var(--s-8);
+        }
+
+        .numbers__head h2 {
+            font-size: var(--t-xxl);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            border-top: 1px solid rgba(3, 20, 28, .2);
+        }
+
+        .stat {
+            padding: var(--s-6) 0;
+            border-bottom: 1px solid rgba(3, 20, 28, .2);
+            display: grid;
+            gap: var(--s-3);
+        }
+
+        .stat__value {
+            font-family: var(--f-display);
+            font-weight: 800;
+            font-variation-settings: "wdth" 70;
+            font-size: var(--t-xxl);
+            line-height: .9;
+            display: flex;
+            align-items: baseline;
+            gap: .1em;
+        }
+
+        .stat__value small {
+            font-size: .4em;
+            font-variation-settings: "wdth" 100;
+        }
+
+        .stat:nth-child(odd) .stat__value {
+            color: var(--tide-800);
+        }
+
+        .stat:nth-child(even) .stat__value {
+            color: var(--coral-700);
+        }
+
+        .stat p {
+            max-width: 34ch;
+        }
+
+        .stat cite {
+            font-style: normal;
+        }
+
+        .stat cite a {
+            color: var(--sand-ink);
+        }
+
+        @media (min-width: 720px) {
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat {
+                padding: var(--s-7) var(--s-6) var(--s-7) 0;
+            }
+
+            .stat:nth-child(even) {
+                padding-left: var(--s-6);
+                border-left: 1px solid rgba(3, 20, 28, .2);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .numbers__head {
+                grid-template-columns: 1.4fr 1fr;
+                align-items: end;
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .stat {
+                padding: var(--s-7) var(--s-5) !important;
+                border-left: 1px solid rgba(3, 20, 28, .2);
+            }
+
+            .stat:first-child {
+                border-left: 0;
+                padding-left: 0 !important;
+            }
+        }
+
+        .note-light {
+            margin-top: var(--s-6);
+            max-width: 70ch;
+        }
+
+        /* =========================================================
+       10. JOURNEY (sticky storytelling)
+       ========================================================= */
+        .journey__grid {
+            display: grid;
+            gap: var(--s-7);
+        }
+
+        .journey__sticky {
+            display: grid;
+            gap: var(--s-5);
+            align-content: start;
+        }
+
+        .journey__sticky h2 {
+            font-size: var(--t-xxl);
+        }
+
+        .journey__visual {
+            display: none;
+        }
+
+        .journey__steps {
+            display: grid;
+            gap: var(--s-4);
+            counter-reset: step;
+        }
+
+        .step {
+            padding: var(--s-6);
+            border: 1px solid var(--line-soft);
+            background: var(--ink-900);
+            border-radius: var(--radius);
+            transition: border-color var(--d-med), background var(--d-med);
+        }
+
+        .step.is-active {
+            border-color: var(--tide-400);
+            background: var(--ink-800);
+        }
+
+        .step__n {
+            font-family: var(--f-mono);
+            color: var(--tide-400);
+            font-size: var(--t-meta);
+            letter-spacing: .08em;
+        }
+
+        .step h3 {
+            font-size: var(--t-l);
+            margin: var(--s-3) 0;
+        }
+
+        .step p {
+            color: var(--foam-300);
+            max-width: 46ch;
+        }
+
+        @media (min-width: 1024px) {
+            .journey__grid {
+                grid-template-columns: 1fr 1fr;
+                gap: var(--s-9);
+            }
+
+            .journey__sticky {
+                position: sticky;
+                top: calc(var(--header-h) + 2rem);
+                height: max-content;
+            }
+
+            .journey__visual {
+                display: block;
+                margin-top: var(--s-6);
+            }
+
+            .journey__steps {
+                gap: 30vh;
+                padding-block: 10vh 30vh;
+            }
+
+            .step {
+                min-height: 40vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+
+        .jv-path {
+            fill: none;
+            stroke: var(--line);
+            stroke-width: 2;
+        }
+
+        .jv-progress {
+            fill: none;
+            stroke: var(--tide-400);
+            stroke-width: 3;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 700ms var(--ease-out);
+        }
+
+        .jv-node {
+            fill: var(--ink-950);
+            stroke: var(--line);
+            stroke-width: 2;
+            transition: fill 400ms, stroke 400ms;
+        }
+
+        .jv-node.on {
+            fill: var(--tide-400);
+            stroke: var(--tide-400);
+        }
+
+        .jv-label {
+            fill: var(--foam-300);
+            font-family: var(--f-mono);
+            font-size: 13px;
+            letter-spacing: .06em;
+        }
+
+        /* =========================================================
+       11. PROGRAMS (spotlight cards)
+       ========================================================= */
+        .programs__head {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: end;
+            gap: var(--s-5);
+            margin-bottom: var(--s-7);
+        }
+
+        .programs__head h2 {
+            font-size: var(--t-xxl);
+        }
+
+        .cards {
+            display: grid;
+            gap: var(--s-4);
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 720px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .cards {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .card {
+            --mx: 50%;
+            --my: 50%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: var(--s-5);
+            min-height: 26rem;
+            padding: var(--s-6);
+            background: var(--ink-900);
+            border: 1px solid var(--line-soft);
+            border-radius: var(--radius);
+            overflow: hidden;
+            isolation: isolate;
+            transition: border-color var(--d-med), transform var(--d-med) var(--ease-out);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity var(--d-med);
+            background: radial-gradient(420px circle at var(--mx) var(--my), rgba(87, 214, 203, .16), transparent 60%);
+        }
+
+        .card:hover,
+        .card:focus-within {
+            border-color: var(--line);
+        }
+
+        .card:hover::before,
+        .card:focus-within::before {
+            opacity: 1;
+        }
+
+        html[data-motion="on"] .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card__icon {
+            width: 56px;
+            height: 56px;
+            color: var(--tide-400);
+        }
+
+        .card__n {
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            color: var(--foam-300);
+        }
+
+        .card h3 {
+            font-size: var(--t-l);
+        }
+
+        .card p {
+            color: var(--foam-300);
+        }
+
+        .card ul {
+            margin-top: auto;
+            display: grid;
+            gap: var(--s-2);
+            padding-top: var(--s-5);
+            border-top: 1px solid var(--line-soft);
+        }
+
+        .card li {
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            display: flex;
+            gap: .6rem;
+        }
+
+        .card li::before {
+            content: "→";
+            color: var(--coral-400);
+        }
+
+        /* =========================================================
+       12. FILM
+       ========================================================= */
+        .film__frame {
+            position: relative;
+            aspect-ratio: 16/9;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--ink-900);
+            border: 1px solid var(--line-soft);
+        }
+
+        .film__poster {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        html[data-motion="on"] .film__frame:hover .film__poster {
+            transform: scale(1.03);
+        }
+
+        .film__poster {
+            transition: transform 1.2s var(--ease-out);
+        }
+
+        .film__play {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            background: transparent;
+            border: 0;
+            width: 100%;
+        }
+
+        .film__play .disc {
+            width: clamp(88px, 12vw, 160px);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: var(--coral-400);
+            color: var(--ink-950);
+            display: grid;
+            place-items: center;
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            font-weight: 500;
+            transition: transform var(--d-med) var(--ease-out), background var(--d-med);
+        }
+
+        .film__play:hover .disc,
+        .film__play:focus-visible .disc {
+            transform: scale(1.08);
+            background: var(--foam-50);
+        }
+
+        .film__play:focus-visible {
+            outline-offset: -6px;
+        }
+
+        .film__meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: var(--s-4);
+            margin-top: var(--s-5);
+        }
+
+        .film__title {
+            font-size: var(--t-xl);
+            margin-bottom: var(--s-6);
+        }
+
+        details.transcript {
+            margin-top: var(--s-5);
+            border-top: 1px solid var(--line-soft);
+        }
+
+        details.transcript summary {
+            cursor: pointer;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        details.transcript div {
+            color: var(--foam-300);
+            max-width: 70ch;
+            display: grid;
+            gap: var(--s-3);
+            padding-bottom: var(--s-5);
+        }
+
+        .player {
+            width: min(1200px, 94vw);
+            max-width: none;
+            padding: 0;
+            border: 1px solid var(--line);
+            background: var(--ink-950);
+            color: var(--foam-50);
+            border-radius: var(--radius);
+        }
+
+        .player::backdrop {
+            background: rgba(3, 20, 28, .9);
+        }
+
+        .player__bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--s-3) var(--s-4);
+            gap: var(--s-4);
+        }
+
+        .player video {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+
+        /* =========================================================
+       13. GOALS
+       ========================================================= */
+        .goals__grid {
+            display: grid;
+            gap: var(--s-7);
+        }
+
+        .goals h2 {
+            font-size: var(--t-xxl);
+        }
+
+        .goal {
+            padding-block: var(--s-5);
+            border-top: 1px solid var(--line-soft);
+            display: grid;
+            gap: var(--s-3);
+        }
+
+        .goal__row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: var(--s-4);
+        }
+
+        .goal__row h3 {
+            font-size: var(--t-m);
+            font-weight: 600;
+        }
+
+        .goal__row data {
+            font-family: var(--f-mono);
+            color: var(--foam-300);
+        }
+
+        .bar {
+            height: 6px;
+            background: var(--ink-800);
+            border-radius: 999px;
+            overflow: hidden;
+            outline: 1px solid var(--line);
+            outline-offset: 0;
+        }
+
+        .bar span {
+            display: block;
+            height: 100%;
+            width: var(--v);
+            background: linear-gradient(90deg, var(--tide-400), var(--coral-400));
+            border-radius: inherit;
+            transform-origin: left;
+        }
+
+        html.js[data-motion="on"] .bar span {
+            transform: scaleX(0);
+            transition: transform 1.4s var(--ease-out);
+        }
+
+        html.js[data-motion="on"] .is-in .bar span {
+            transform: scaleX(1);
+        }
+
+        @media (min-width: 1024px) {
+            .goals__grid {
+                grid-template-columns: 1fr 1.3fr;
+                gap: var(--s-9);
+            }
+        }
+
+        /* =========================================================
+       14. ACT — FORM
+       ========================================================= */
+        .act {
+            background: var(--ink-900);
+        }
+
+        .act__grid {
+            display: grid;
+            gap: var(--s-7);
+        }
+
+        .act h2 {
+            font-size: var(--t-xxl);
+        }
+
+        .act__aside {
+            display: grid;
+            gap: var(--s-5);
+            align-content: start;
+        }
+
+        .act__aside ul {
+            display: grid;
+            gap: var(--s-3);
+        }
+
+        .act__aside li {
+            display: flex;
+            gap: .75rem;
+            color: var(--foam-300);
+        }
+
+        .act__aside li svg {
+            flex: none;
+            width: 20px;
+            height: 20px;
+            color: var(--tide-400);
+            margin-top: .2em;
+        }
+
+        @media (min-width: 1024px) {
+            .act__grid {
+                grid-template-columns: 1fr 1.25fr;
+                gap: var(--s-9);
+            }
+
+            .act__aside {
+                position: sticky;
+                top: calc(var(--header-h) + 2rem);
+                height: max-content;
+            }
+        }
+
+        .form[hidden] {
+            display: none;
+        }
+
+        .form {
+            display: grid;
+            gap: var(--s-6);
+            padding: clamp(1.25rem, 3vw, 3rem);
+            background: var(--ink-950);
+            border: 1px solid var(--line-soft);
+            border-radius: var(--radius);
+        }
+
+        .form__row {
+            display: grid;
+            gap: var(--s-5);
+        }
+
+        @media (min-width: 640px) {
+            .form__row--2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .field {
+            display: grid;
+            gap: var(--s-2);
+        }
+
+        .field label,
+        .form legend {
+            font-weight: 600;
+        }
+
+        .req {
+            color: var(--coral-400);
+        }
+
+        .hint {
+            font-size: .9375rem;
+            color: var(--foam-300);
+        }
+
+        .input {
+            min-height: 52px;
+            width: 100%;
+            padding: .8rem 1rem;
+            background: var(--ink-900);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            transition: border-color var(--d-fast), box-shadow var(--d-fast), background var(--d-fast);
+        }
+
+        .input:hover {
+            border-color: var(--foam-300);
+        }
+
+        .input:focus-visible {
+            outline: none;
+            border-color: var(--tide-400);
+            box-shadow: 0 0 0 3px rgba(87, 214, 203, .45);
+        }
+
+        select.input {
+            appearance: none;
+            background-image: linear-gradient(45deg, transparent 50%, var(--foam-300) 50%), linear-gradient(135deg, var(--foam-300) 50%, transparent 50%);
+            background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%;
+            background-size: 6px 6px;
+            background-repeat: no-repeat;
+            padding-right: 2.5rem;
+        }
+
+        .input[aria-invalid="true"] {
+            border-color: var(--error);
+            box-shadow: inset 4px 0 0 var(--error);
+        }
+
+        .error-msg {
+            color: var(--error);
+            font-size: .9375rem;
+            display: flex;
+            gap: .4rem;
+            align-items: flex-start;
+        }
+
+        .error-msg:empty {
+            display: none;
+        }
+
+        .error-msg::before {
+            content: "!";
+            flex: none;
+            display: inline-grid;
+            place-items: center;
+            width: 1.2em;
+            height: 1.2em;
+            border-radius: 50%;
+            background: var(--error);
+            color: var(--ink-950);
+            font-weight: 800;
+            font-size: .8em;
+            margin-top: .2em;
+        }
+
+        fieldset {
+            border: 0;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: var(--s-3);
+            min-width: 0;
+        }
+
+        .choice-grid {
+            display: grid;
+            gap: var(--s-3);
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 520px) {
+            .choice-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .choice {
+            position: relative;
+        }
+
+        .choice input {
+            position: absolute;
+            opacity: 0;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .choice label {
+            display: grid;
+            gap: .25rem;
+            min-height: 64px;
+            padding: var(--s-4) var(--s-4) var(--s-4) 3rem;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--ink-900);
+            cursor: pointer;
+            transition: border-color var(--d-fast), background var(--d-fast);
+            position: relative;
+        }
+
+        .choice label::before {
+            content: "";
+            position: absolute;
+            left: 1rem;
+            top: 1.15rem;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--foam-300);
+            border-radius: 50%;
+            transition: box-shadow var(--d-fast), border-color var(--d-fast);
+        }
+
+        .choice input[type="checkbox"]+label::before {
+            border-radius: 3px;
+        }
+
+        .choice label small {
+            color: var(--foam-300);
+            font-size: .875rem;
+            font-weight: 400;
+        }
+
+        .choice input:hover+label {
+            border-color: var(--foam-300);
+        }
+
+        .choice input:checked+label {
+            border-color: var(--tide-400);
+            background: var(--ink-800);
+        }
+
+        .choice input:checked+label::before {
+            border-color: var(--tide-400);
+            box-shadow: inset 0 0 0 4px var(--ink-800), inset 0 0 0 10px var(--tide-400);
+        }
+
+        .choice input:focus-visible+label {
+            outline: 2px solid var(--tide-400);
+            outline-offset: 3px;
+        }
+
+        .choice-grid[aria-invalid="true"] .choice label {
+            border-color: var(--error);
+        }
+
+        .amounts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--s-2);
+        }
+
+        .amounts .choice label {
+            min-height: 48px;
+            padding: .7rem 1.1rem .7rem 2.6rem;
+        }
+
+        .amounts .choice label::before {
+            top: 50%;
+            transform: translateY(-50%);
+            left: .9rem;
+        }
+
+        .donate-panel[hidden] {
+            display: none;
+        }
+
+        .check {
+            display: flex;
+            gap: .75rem;
+            align-items: flex-start;
+        }
+
+        .check input {
+            flex: none;
+            width: 24px;
+            height: 24px;
+            margin: .1rem 0 0;
+            accent-color: var(--tide-400);
+        }
+
+        .check label {
+            font-weight: 400;
+            color: var(--foam-300);
+        }
+
+        .check label a {
+            color: var(--foam-50);
+        }
+
+        .error-summary {
+            padding: var(--s-5);
+            border: 2px solid var(--error);
+            border-radius: var(--radius);
+            background: rgba(255, 138, 138, .06);
+        }
+
+        .error-summary[hidden] {
+            display: none;
+        }
+
+        .error-summary h3 {
+            font-size: 1.125rem;
+            margin-bottom: var(--s-2);
+        }
+
+        .error-summary ul {
+            padding-left: 1.2rem;
+            display: grid;
+            gap: .25rem;
+        }
+
+        .error-summary a {
+            color: var(--error);
+        }
+
+        .form__submit {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--s-4);
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn[aria-busy="true"] {
+            pointer-events: none;
+            opacity: .85;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .btn[aria-busy="true"] .spinner {
+            display: inline-block;
+            animation: spin .8s linear infinite;
+        }
+
+        .btn[aria-busy="true"] .arrow {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .success {
+            display: grid;
+            gap: var(--s-4);
+            padding: clamp(1.25rem, 3vw, 3rem);
+            border: 1px solid var(--tide-400);
+            border-radius: var(--radius);
+            background: var(--ink-950);
+        }
+
+        .success[hidden] {
+            display: none;
+        }
+
+        .success h3 {
+            font-size: var(--t-l);
+        }
+
+        .success h3:focus-visible {
+            outline-offset: 6px;
+        }
+
+        /* =========================================================
+       15. FAQ
+       ========================================================= */
+        .faq__grid {
+            display: grid;
+            gap: var(--s-7);
+        }
+
+        .faq h2 {
+            font-size: var(--t-xxl);
+        }
+
+        .faq details {
+            border-top: 1px solid var(--line-soft);
+        }
+
+        .faq details:last-child {
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .faq summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            gap: var(--s-5);
+            align-items: center;
+            min-height: 64px;
+            padding-block: var(--s-4);
+            font-size: var(--t-m);
+            font-weight: 600;
+        }
+
+        .faq summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq summary .pm {
+            flex: none;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            position: relative;
+            transition: transform var(--d-med) var(--ease-out), background var(--d-fast);
+        }
+
+        .faq summary .pm::before,
+        .faq summary .pm::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 12px;
+            height: 1.5px;
+            background: currentColor;
+            transform: translate(-50%, -50%);
+        }
+
+        .faq summary .pm::after {
+            transform: translate(-50%, -50%) rotate(90deg);
+            transition: transform var(--d-med) var(--ease-out);
+        }
+
+        .faq details[open] .pm::after {
+            transform: translate(-50%, -50%) rotate(0);
+        }
+
+        .faq summary:hover .pm {
+            background: var(--ink-800);
+        }
+
+        .faq .answer {
+            padding-bottom: var(--s-5);
+            color: var(--foam-300);
+            max-width: 68ch;
+            display: grid;
+            gap: var(--s-3);
+        }
+
+        @media (min-width: 1024px) {
+            .faq__grid {
+                grid-template-columns: 1fr 1.6fr;
+                gap: var(--s-9);
+            }
+        }
+
+        /* =========================================================
+       16. RESOURCES
+       ========================================================= */
+        .res-grid {
+            display: grid;
+            gap: var(--s-4);
+            margin-top: var(--s-7);
+        }
+
+        @media (min-width: 720px) {
+            .res-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .res-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .res {
+            position: relative;
+            display: grid;
+            gap: var(--s-3);
+            padding: var(--s-5);
+            border: 1px solid var(--line-soft);
+            border-radius: var(--radius);
+            text-decoration: none;
+            min-height: 12rem;
+            align-content: space-between;
+            transition: border-color var(--d-med), background var(--d-med);
+        }
+
+        .res:hover,
+        .res:focus-visible {
+            border-color: var(--tide-400);
+            background: var(--ink-900);
+        }
+
+        .res h3 {
+            font-size: 1.25rem;
+        }
+
+        .resources h2 {
+            font-size: var(--t-xxl);
+        }
+
+        .res p {
+            color: var(--foam-300);
+            font-size: .9375rem;
+        }
+
+        .res .ext {
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            color: var(--tide-400);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .res .ext span:last-child {
+            transition: transform var(--d-med) var(--ease-out);
+        }
+
+        .res:hover .ext span:last-child,
+        .res:focus-visible .ext span:last-child {
+            transform: translate(3px, -3px);
+        }
+
+        /* =========================================================
+       17. FOOTER
+       ========================================================= */
+        .site-footer {
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--section);
+            border-top: 1px solid var(--line-soft);
+        }
+
+        .footer-cta {
+            display: grid;
+            gap: var(--s-6);
+            padding-bottom: var(--s-9);
+        }
+
+        .footer-cta h2 {
+            font-size: var(--t-xxl);
+            max-width: 14ch;
+        }
+
+        .footer-cols {
+            display: grid;
+            gap: var(--s-7);
+            padding-block: var(--s-7);
+            border-top: 1px solid var(--line-soft);
+        }
+
+        @media (min-width: 720px) {
+            .footer-cols {
+                grid-template-columns: 1.6fr 1fr 1fr;
+            }
+        }
+
+        .footer-cols h3 {
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--foam-300);
+            font-weight: 400;
+            margin-bottom: var(--s-4);
+        }
+
+        .footer-cols ul {
+            display: grid;
+            gap: var(--s-1);
+        }
+
+        .footer-cols li a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 36px;
+        }
+
+        .news {
+            display: grid;
+            gap: var(--s-3);
+            max-width: 30rem;
+        }
+
+        .news__row {
+            display: flex;
+            gap: var(--s-2);
+        }
+
+        .news__row .input {
+            flex: 1;
+        }
+
+        .wordmark {
+            font-variation-settings: "wdth" 62;
+            font-size: clamp(3rem, 14vw, 20rem);
+            line-height: .8;
+            white-space: nowrap;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--line);
+            padding-top: var(--s-6);
+            user-select: none;
+            letter-spacing: -.02em;
+        }
+
+        html[data-motion="on"] .wordmark span {
+            display: inline-block;
+            transition: color 600ms var(--ease-out), transform 900ms var(--ease-out);
+        }
+
+        .wordmark:hover span {
+            color: var(--ink-800);
+        }
+
+        .footer-base {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--s-4);
+            justify-content: space-between;
+            align-items: center;
+            padding-block: var(--s-5);
+            border-top: 1px solid var(--line-soft);
+        }
+
+        .to-top {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            min-height: 44px;
+            background: none;
+            border: 0;
+            padding: 0;
+            font-family: var(--f-mono);
+            font-size: var(--t-meta);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        /* =========================================================
+       18. REVEAL SYSTEM (progressive enhancement)
+       ========================================================= */
+        html.js[data-motion="on"] .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out);
+            transition-delay: calc(var(--i, 0) * 80ms);
+        }
+
+        html.js[data-motion="on"] .reveal.is-in {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* =========================================================
+       19. REDUCED MOTION — hard floor regardless of toggle
+       ========================================================= */
+        @media (prefers-reduced-motion: reduce) {
+
+            html[data-motion="off"] *,
+            html[data-motion="off"] *::before,
+            html[data-motion="off"] *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        html[data-motion="off"] {
+            scroll-behavior: auto;
+        }
+
+        /* Windows High Contrast / forced colours */
+        @media (forced-colors: active) {
+
+            .btn,
+            .input,
+            .card,
+            .step,
+            .choice label,
+            .res {
+                border: 1px solid CanvasText;
+            }
+
+            .bar span {
+                background: Highlight;
+            }
+
+            .wordmark {
+                color: CanvasText;
+                -webkit-text-stroke: 0;
+            }
+        }
+
+        @media print {
+
+            .site-header,
+            .curtain,
+            .hero__canvas,
+            .marquee,
+            .film__frame,
+            .motion-toggle {
+                display: none !important;
+            }
+
+            body {
+                background: #fff;
+                color: #000;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- Decorative intro: aria-hidden, pointer-events none, removed when motion is off -->
+    <div class="curtain" aria-hidden="true">
+        <p class="curtain__word display"><span>Clean&nbsp;Oceans</span></p>
+    </div>
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="site-header" id="top">
+        <div class="wrap">
+            <a class="brand" href="#top" aria-label="Clean Oceans Campaign, back to top">
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    <circle cx="16" cy="16" r="15" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M4 18c3-3 5-3 8 0s5 3 8 0 5-3 8 0" stroke="#57D6CB" stroke-width="2"
+                        stroke-linecap="round" />
+                    <path d="M6 23c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 7 0" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" />
+                </svg>
+                <span>Clean Oceans</span>
+            </a>
+
+            <nav class="nav" aria-label="Primary">
+                <ul role="list">
+                    <li><a href="#why">Why</a></li>
+                    <li><a href="#journey">The problem</a></li>
+                    <li><a href="#programs">Our work</a></li>
+                    <li><a href="#film">Film</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button class="motion-toggle" type="button" aria-pressed="false" data-motion-toggle>
+                    <span class="dot" aria-hidden="true"></span>
+                    <span><span class="label-long">Reduce </span>motion</span>
+                </button>
+                <a class="btn btn--sm donate-desktop" href="#act">Join the campaign <span class="arrow"
+                        aria-hidden="true">→</span></a>
+                <button class="menu-btn" type="button" aria-haspopup="dialog" aria-controls="menu"
+                    data-menu-open>Menu</button>
+            </div>
+        </div>
+    </header>
+
+    <dialog class="menu" id="menu" aria-label="Site menu">
+        <div class="menu__top">
+            <span class="brand" aria-hidden="true">Clean Oceans</span>
+            <button class="menu-btn" type="button" data-menu-close>Close <span
+                    class="visually-hidden">menu</span></button>
+        </div>
+        <nav aria-label="Mobile">
+            <ol role="list" class="display">
+                <li><a href="#why">Why</a></li>
+                <li><a href="#journey">The problem</a></li>
+                <li><a href="#programs">Our work</a></li>
+                <li><a href="#film">Film</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ol>
+        </nav>
+        <div class="menu__foot">
+            <a class="btn" href="#act">Join the campaign <span class="arrow" aria-hidden="true">→</span></a>
+            <p class="meta">hello@cleanoceans</p>
+        </div>
+    </dialog>
+
+    <main id="main" tabindex="-1">
+
+        <!-- ===================== HERO ===================== -->
+        <section class="hero" aria-labelledby="hero-title">
+            <canvas class="hero__canvas" aria-hidden="true" data-waves></canvas>
+            <div class="hero__veil" aria-hidden="true"></div>
+            <div class="wrap">
+                <div class="hero__top">
+                    <p class="eyebrow">A non-profit initiative — 2026</p>
+                    <p class="meta">Intercept · Restore · Teach</p>
+                </div>
+
+                <h1 id="hero-title" class="display">
+                    <span class="line"><span>The ocean gives</span></span>
+                    <span class="line"><span>every <span class="serif">second</span></span></span>
+                    <span class="line"><span>breath.</span></span>
+                </h1>
+
+                <div class="hero__bottom">
+                    <p class="lede">Roughly half of Earth’s oxygen comes from the ocean. The Clean Oceans Campaign keeps
+                        plastic out of it — at the drain, the river mouth and the shoreline.</p>
+                    <div class="hero__ctas">
+                        <a class="btn" href="#act">Join the campaign <span class="arrow" aria-hidden="true">→</span></a>
+                        <a class="btn btn--ghost" href="#film">Watch the film</a>
+                    </div>
+                    <p class="scroll-cue meta" aria-hidden="true"><i></i> Scroll</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== MARQUEE ===================== -->
+        <div class="marquee display" role="region" aria-label="Campaign pillars">
+            <div class="marquee__track">
+                <p class="marquee__group">
+                    <span>Refuse single-use</span><span class="star" aria-hidden="true">✦</span>
+                    <span>intercept rivers</span><span class="star" aria-hidden="true">✦</span>
+                    <span>Restore reefs</span><span class="star" aria-hidden="true">✦</span>
+                    <span>teach the tide</span><span class="star" aria-hidden="true">✦</span>
+                </p>
+                <p class="marquee__group" aria-hidden="true">
+                    <span>Refuse single-use</span><span class="star">✦</span>
+                    <span>intercept rivers</span><span class="star">✦</span>
+                    <span>Restore reefs</span><span class="star">✦</span>
+                    <span>teach the tide</span><span class="star">✦</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- ===================== MANIFESTO ===================== -->
+        <section class="section manifesto" id="why" aria-labelledby="why-title">
+            <div class="wrap manifesto__grid">
+                <div>
+                    <h2 id="why-title" class="eyebrow reveal">Why we exist</h2>
+                </div>
+                <p class="big" data-lit-words>
+                    The ocean regulates our climate, feeds billions and makes the air breathable. We treat it as the
+                    last stop for our waste. The Clean Oceans Campaign exists to change where plastic ends up — by
+                    stopping it upstream, cleaning what already reached the coast and raising a generation that refuses
+                    to make the same mistake.
+                </p>
+            </div>
+        </section>
+
+        <!-- ===================== NUMBERS ===================== -->
+        <section class="section on-light" id="numbers" aria-labelledby="numbers-title">
+            <div class="wrap">
+                <div class="numbers__head">
+                    <h2 id="numbers-title" class="display reveal">The ocean, <span class="serif">in numbers</span></h2>
+                    <p class="lede reveal" style="--i:1">Four figures from the UN and NOAA that explain why a healthy
+                        ocean is not optional.</p>
+                </div>
+
+                <ul class="stat-grid" role="list">
+                    <li class="stat reveal">
+                        <p class="stat__value" data-count="71"><span class="visually-hidden">71%</span><span
+                                aria-hidden="true"><span class="num">71</span><small>%</small></span></p>
+                        <p>of Earth’s surface is ocean, holding 97% of the planet’s water.</p>
+                        <cite class="meta"><a href="https://globalocean.noaa.gov/The-Ocean/">NOAA Global Ocean
+                                Monitoring</a></cite>
+                    </li>
+                    <li class="stat reveal" style="--i:1">
+                        <p class="stat__value" data-count="50"><span class="visually-hidden">About 50%</span><span
+                                aria-hidden="true">~<span class="num">50</span><small>%</small></span></p>
+                        <p>of Earth’s oxygen production comes from the ocean, mostly from plankton.</p>
+                        <cite class="meta"><a href="https://oceanservice.noaa.gov/facts/ocean-oxygen.html">NOAA National
+                                Ocean Service</a></cite>
+                    </li>
+                    <li class="stat reveal" style="--i:2">
+                        <p class="stat__value" data-count="90"><span class="visually-hidden">90%</span><span
+                                aria-hidden="true"><span class="num">90</span><small>%</small></span></p>
+                        <p>of the excess heat from greenhouse-gas emissions is captured by the ocean.</p>
+                        <cite class="meta"><a
+                                href="https://www.un.org/en/climatechange/science/climate-issues/ocean">United
+                                Nations</a></cite>
+                    </li>
+                    <li class="stat reveal" style="--i:3">
+                        <p class="stat__value" data-count="11"><span class="visually-hidden">More than 11 million
+                                tonnes</span><span aria-hidden="true"><span class="num">11</span><small>M+
+                                    t</small></span></p>
+                        <p>of plastic are estimated to enter the ocean every year.</p>
+                        <cite class="meta"><a
+                                href="https://www.unep.org/topics/ocean-seas-and-coasts/ecosystem-degradation-pollution/plastic-pollution-marine-litter">UNEP</a></cite>
+                    </li>
+                </ul>
+                <p class="meta note-light">Estimates of plastic entering the ocean vary between studies and
+                    methodologies. We use UNEP’s published figure and link every number to its source.</p>
+            </div>
+        </section>
+
+        <!-- ===================== JOURNEY ===================== -->
+        <section class="section journey" id="journey" aria-labelledby="journey-title">
+            <div class="wrap journey__grid">
+                <div class="journey__sticky">
+                    <p class="eyebrow">The problem</p>
+                    <h2 id="journey-title" class="display">From street <span class="serif">to</span> sea</h2>
+                    <p class="lede">Most ocean plastic starts on land. It travels a predictable route — which means it
+                        can be stopped at predictable points.</p>
+                    <svg class="journey__visual" viewBox="0 0 520 220" role="img" aria-labelledby="jv-t">
+                        <title id="jv-t">Diagram: plastic travels from street drains to rivers, coasts and the open
+                            ocean</title>
+                        <path class="jv-path" d="M20 170 C120 170 120 60 220 60 S340 170 420 120 S500 60 500 60" />
+                        <path class="jv-progress" data-jv-progress
+                            d="M20 170 C120 170 120 60 220 60 S340 170 420 120 S500 60 500 60" />
+                        <g>
+                            <circle class="jv-node" data-jv-node="0" cx="20" cy="170" r="9" />
+                            <circle class="jv-node" data-jv-node="1" cx="220" cy="60" r="9" />
+                            <circle class="jv-node" data-jv-node="2" cx="420" cy="120" r="9" />
+                            <circle class="jv-node" data-jv-node="3" cx="500" cy="60" r="9" />
+                            <text class="jv-label" x="20" y="205">DRAIN</text>
+                            <text class="jv-label" x="196" y="36">RIVER</text>
+                            <text class="jv-label" x="392" y="155">COAST</text>
+                            <text class="jv-label" x="440" y="36">OCEAN</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <ol class="journey__steps" role="list">
+                    <li class="step" data-step="0">
+                        <p class="step__n">01 — Street &amp; drain</p>
+                        <h3>Litter becomes runoff</h3>
+                        <p>Wrappers, bottles and bags dropped in streets are washed into storm drains with the first
+                            heavy rain.</p>
+                    </li>
+                    <li class="step" data-step="1">
+                        <p class="step__n">02 — River</p>
+                        <h3>Rivers carry it downstream</h3>
+                        <p>Waterways act as conveyor belts. This is where interception is cheapest and most effective —
+                            one barrier can protect an entire coastline.</p>
+                    </li>
+                    <li class="step" data-step="2">
+                        <p class="step__n">03 — Coast</p>
+                        <h3>Shorelines catch the overflow</h3>
+                        <p>Beaches, mangroves and estuaries trap debris, smothering habitats that nurseries of fish
+                            depend on.</p>
+                    </li>
+                    <li class="step" data-step="3">
+                        <p class="step__n">04 — Open ocean</p>
+                        <h3>It breaks down — but never disappears</h3>
+                        <p>Sunlight and waves fragment plastic into microplastics that enter the food chain and persist
+                            for generations.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ===================== PROGRAMS ===================== -->
+        <section class="section programs" id="programs" aria-labelledby="programs-title">
+            <div class="wrap">
+                <div class="programs__head">
+                    <div>
+                        <p class="eyebrow reveal">Our work</p>
+                        <h2 id="programs-title" class="display reveal" style="--i:1">Four ways <span
+                                class="serif">we</span> act</h2>
+                    </div>
+                    <p class="lede reveal" style="--i:2">Each programme targets a stage of plastic’s journey, so every
+                        contribution works where it matters most.</p>
+                </div>
+
+                <ul class="cards" role="list">
+                    <li class="card reveal" data-spotlight>
+                        <svg class="card__icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"
+                            aria-hidden="true">
+                            <path d="M6 36c6-6 10-6 16 0s10 6 16 0 8-5 12-2" />
+                            <path d="M28 8v22M20 22l8 8 8-8" />
+                        </svg>
+                        <p class="card__n">01 / Intercept</p>
+                        <h3>River barriers</h3>
+                        <p>Floating booms and trash traps at river mouths capture waste before it reaches the sea.</p>
+                        <ul role="list">
+                            <li>Barrier installation</li>
+                            <li>Waste audits</li>
+                            <li>Recycling partners</li>
+                        </ul>
+                    </li>
+                    <li class="card reveal" style="--i:1" data-spotlight>
+                        <svg class="card__icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"
+                            aria-hidden="true">
+                            <path d="M8 44h40" />
+                            <path d="M14 44V30l8-6 8 6v14" />
+                            <circle cx="40" cy="18" r="6" />
+                        </svg>
+                        <p class="card__n">02 / Clean</p>
+                        <h3>Coastal cleanups</h3>
+                        <p>Volunteer-led beach and mangrove cleanups, with every item logged to inform policy.</p>
+                        <ul role="list">
+                            <li>Monthly events</li>
+                            <li>Data logging</li>
+                            <li>Kits provided</li>
+                        </ul>
+                    </li>
+                    <li class="card reveal" style="--i:2" data-spotlight>
+                        <svg class="card__icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"
+                            aria-hidden="true">
+                            <path d="M28 48V26" />
+                            <path d="M28 30c-8 0-12-6-12-14 8 0 12 6 12 14zM28 26c6 0 10-5 10-12-6 0-10 5-10 12z" />
+                            <path d="M12 48h32" />
+                        </svg>
+                        <p class="card__n">03 / Restore</p>
+                        <h3>Reef &amp; mangrove revival</h3>
+                        <p>Replanting mangroves and supporting reef restoration with local scientists and fishing
+                            communities.</p>
+                        <ul role="list">
+                            <li>Nursery projects</li>
+                            <li>Community stewards</li>
+                            <li>Monitoring</li>
+                        </ul>
+                    </li>
+                    <li class="card reveal" style="--i:3" data-spotlight>
+                        <svg class="card__icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"
+                            aria-hidden="true">
+                            <path d="M6 20l22-10 22 10-22 10z" />
+                            <path d="M14 24v12c8 6 20 6 28 0V24" />
+                            <path d="M50 20v12" />
+                        </svg>
+                        <p class="card__n">04 / Teach</p>
+                        <h3>Ocean classrooms</h3>
+                        <p>Free lesson plans, school visits and youth ambassador programmes that turn awareness into
+                            habits.</p>
+                        <ul role="list">
+                            <li>Lesson plans</li>
+                            <li>School workshops</li>
+                            <li>Youth ambassadors</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===================== FILM ===================== -->
+        <section class="section film" id="film" aria-labelledby="film-title">
+            <div class="wrap">
+                <p class="eyebrow reveal">The film</p>
+                <h2 id="film-title" class="display film__title reveal" style="--i:1">Ninety seconds <span
+                        class="serif">under</span> the surface</h2>
+
+                <div class="film__frame reveal" style="--i:2">
+                    <!-- Poster: original SVG artwork (no third-party licence required). Swap for a licensed still — see asset register. -->
+                    <svg class="film__poster" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"
+                        aria-hidden="true">
+                        <defs>
+                            <linearGradient id="deep" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="#0B4D5C" />
+                                <stop offset=".55" stop-color="#062230" />
+                                <stop offset="1" stop-color="#03141C" />
+                            </linearGradient>
+                            <radialGradient id="sun" cx=".7" cy="0" r=".7">
+                                <stop offset="0" stop-color="#57D6CB" stop-opacity=".55" />
+                                <stop offset="1" stop-color="#57D6CB" stop-opacity="0" />
+                            </radialGradient>
+                        </defs>
+                        <rect width="1600" height="900" fill="url(#deep)" />
+                        <rect width="1600" height="900" fill="url(#sun)" />
+                        <g stroke="#57D6CB" stroke-opacity=".18" stroke-width="2" fill="none">
+                            <path d="M1100 0 L900 900" />
+                            <path d="M1180 0 L1060 900" />
+                            <path d="M1260 0 L1240 900" />
+                            <path d="M1020 0 L720 900" />
+                        </g>
+                        <g fill="#EEF4F1" fill-opacity=".5">
+                            <circle cx="300" cy="620" r="3" />
+                            <circle cx="420" cy="540" r="2" />
+                            <circle cx="560" cy="700" r="4" />
+                            <circle cx="880" cy="420" r="2" />
+                            <circle cx="1320" cy="640" r="3" />
+                            <circle cx="1180" cy="760" r="2" />
+                        </g>
+                        <g fill="#FF7A59" fill-opacity=".8">
+                            <circle cx="760" cy="600" r="5" />
+                            <circle cx="1040" cy="520" r="3" />
+                            <circle cx="220" cy="480" r="3" />
+                        </g>
+                        <text x="80" y="820" fill="#EEF4F1" fill-opacity=".9" font-family="Archivo, sans-serif"
+                            font-weight="800" font-size="120" style="font-variation-settings:'wdth' 72"
+                            letter-spacing="-2">BENEATH</text>
+                    </svg>
+                    <button class="film__play" type="button" data-film-open aria-haspopup="dialog">
+                        <span class="disc">Play<span class="visually-hidden"> the Clean Oceans campaign film, 90
+                                seconds, captions available</span></span>
+                    </button>
+                </div>
+
+                <div class="film__meta">
+                    <p class="meta">Runtime 1:30 · Captions (EN) · Audio description in transcript</p>
+                    <p class="meta">No autoplay · Loads only when you press play</p>
+                </div>
+
+                <details class="transcript">
+                    <summary>Read the transcript</summary>
+                    <div>
+                        <p><strong>[Visual: sunlight through water, drifting plankton.]</strong> Narrator: Every second
+                            breath you take begins here.</p>
+                        <p><strong>[Visual: a plastic bottle sinking slowly.]</strong> Narrator: But the ocean has
+                            become the last stop for what we throw away.</p>
+                        <p><strong>[Visual: volunteers pulling a floating barrier across a river mouth.]</strong>
+                            Narrator: Most of it starts on land. So that’s where we start too.</p>
+                        <p><strong>[Visual: children planting mangrove seedlings.]</strong> Narrator: Intercept.
+                            Restore. Teach. Join the Clean Oceans Campaign.</p>
+                        <p class="meta">Placeholder script — replace with the final approved transcript.</p>
+                    </div>
+                </details>
+            </div>
+
+            <dialog class="player" id="player" aria-labelledby="player-title">
+                <div class="player__bar">
+                    <h2 id="player-title" class="meta">Clean Oceans — campaign film</h2>
+                    <button class="btn btn--ghost btn--sm" type="button" data-film-close>Close <span
+                            class="visually-hidden">video</span></button>
+                </div>
+                <!-- Replace src with your licensed film (e.g., edited from Coverr/Mixkit/NOAA footage). -->
+                <video autoplay muted loop playsinline preload="auto" data-film-video>
+
+                    <source data-src="https://www.pexels.com/download/video/10802614/" type="video/mp4" />
+
+                    <track kind="captions" srclang="en" label="English" data-src="assets/clean-oceans-film.en.vtt"
+                        default />
+
+                    Your browser does not support embedded video.
+                </video>
+            </dialog>
+        </section>
+
+        <!-- ===================== GOALS ===================== -->
+        <section class="section goals" id="goals" aria-labelledby="goals-title">
+            <div class="wrap goals__grid">
+                <div>
+                    <p class="eyebrow reveal">2027 targets</p>
+                    <h2 id="goals-title" class="display reveal" style="--i:1">What your support <span
+                            class="serif">builds</span></h2>
+                    <p class="lede reveal" style="--i:2">Public targets we report against every quarter. Progress bars
+                        show how far we are toward each goal.</p>
+                </div>
+                <!-- PLACEHOLDER VALUES — replace with audited campaign data before launch -->
+                <ul role="list" class="reveal" data-reveal-group>
+                    <li class="goal">
+                        <div class="goal__row">
+                            <h3 id="g1">River barriers installed</h3><data value="12">12 of 40</data>
+                        </div>
+                        <div class="bar" role="progressbar" aria-labelledby="g1" aria-valuemin="0" aria-valuemax="40"
+                            aria-valuenow="12" aria-valuetext="12 of 40 barriers"><span style="--v:30%"></span></div>
+                    </li>
+                    <li class="goal">
+                        <div class="goal__row">
+                            <h3 id="g2">Volunteers mobilised</h3><data value="3200">3,200 of 10,000</data>
+                        </div>
+                        <div class="bar" role="progressbar" aria-labelledby="g2" aria-valuemin="0" aria-valuemax="10000"
+                            aria-valuenow="3200" aria-valuetext="3,200 of 10,000 volunteers"><span
+                                style="--v:32%"></span></div>
+                    </li>
+                    <li class="goal">
+                        <div class="goal__row">
+                            <h3 id="g3">Mangrove seedlings planted</h3><data value="18000">18,000 of 50,000</data>
+                        </div>
+                        <div class="bar" role="progressbar" aria-labelledby="g3" aria-valuemin="0" aria-valuemax="50000"
+                            aria-valuenow="18000" aria-valuetext="18,000 of 50,000 seedlings"><span
+                                style="--v:36%"></span></div>
+                    </li>
+                    <li class="goal">
+                        <div class="goal__row">
+                            <h3 id="g4">Schools reached</h3><data value="140">140 of 250</data>
+                        </div>
+                        <div class="bar" role="progressbar" aria-labelledby="g4" aria-valuemin="0" aria-valuemax="250"
+                            aria-valuenow="140" aria-valuetext="140 of 250 schools"><span style="--v:56%"></span></div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===================== ACT ===================== -->
+        <section class="section act" id="act" aria-labelledby="act-title">
+            <div class="wrap act__grid">
+                <div class="act__aside">
+                    <p class="eyebrow">Take action</p>
+                    <h2 id="act-title" class="display">Join <span class="serif">the</span> tide</h2>
+                    <p class="lede">Volunteer, donate, pledge or bring the ocean into your classroom. It takes under a
+                        minute.</p>
+                    <ul role="list">
+                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                                aria-hidden="true">
+                                <path d="M4 10l4 4 8-8" />
+                            </svg>We never sell or share your data.</li>
+                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                                aria-hidden="true">
+                                <path d="M4 10l4 4 8-8" />
+                            </svg>Unsubscribe from updates in one click.</li>
+                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+                                aria-hidden="true">
+                                <path d="M4 10l4 4 8-8" />
+                            </svg>Quarterly impact reports, published openly.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <form class="form" id="join-form" novalidate aria-describedby="form-note">
+                        <div class="error-summary" id="error-summary" tabindex="-1" aria-labelledby="err-sum-h" hidden>
+                            <h3 id="err-sum-h">There’s a problem with your submission</h3>
+                            <ul></ul>
+                        </div>
+
+                        <p class="hint" id="form-note">Fields marked <span class="req" aria-hidden="true">*</span><span
+                                class="visually-hidden">with an asterisk</span> are required.</p>
+
+                        <div class="form__row form__row--2">
+                            <div class="field">
+                                <label for="f-name">First name <span class="req" aria-hidden="true">*</span></label>
+                                <input class="input" id="f-name" name="name" type="text" autocomplete="given-name"
+                                    required aria-describedby="f-name-err" />
+                                <p class="error-msg" id="f-name-err"></p>
+                            </div>
+                            <div class="field">
+                                <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
+                                <input class="input" id="f-email" name="email" type="email" inputmode="email"
+                                    autocomplete="email" required aria-describedby="f-email-hint f-email-err" />
+                                <p class="hint" id="f-email-hint">For example, name@example.org</p>
+                                <p class="error-msg" id="f-email-err"></p>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="f-country">Country or region</label>
+                            <select class="input" id="f-country" name="country" autocomplete="country-name">
+                                <option value="">Select (optional)</option>
+                                <option>India</option>
+                                <option>United States</option>
+                                <option>United Kingdom</option>
+                                <option>Australia</option>
+                                <option>Indonesia</option>
+                                <option>Philippines</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <fieldset aria-describedby="f-help-err">
+                            <legend>How would you like to help? <span class="req" aria-hidden="true">*</span></legend>
+                            <div class="choice-grid" id="f-help" data-group="help">
+                                <div class="choice"><input type="radio" id="h-vol" name="help" value="volunteer"
+                                        required /><label for="h-vol">Volunteer <small>Join a cleanup near
+                                            you</small></label></div>
+                                <div class="choice"><input type="radio" id="h-don" name="help" value="donate" /><label
+                                        for="h-don">Donate <small>Fund barriers and restoration</small></label></div>
+                                <div class="choice"><input type="radio" id="h-pl" name="help" value="pledge" /><label
+                                        for="h-pl">Take the pledge <small>Cut single-use plastic</small></label></div>
+                                <div class="choice"><input type="radio" id="h-edu" name="help" value="educator" /><label
+                                        for="h-edu">I’m an educator <small>Get free lesson plans</small></label></div>
+                            </div>
+                            <p class="error-msg" id="f-help-err"></p>
+                        </fieldset>
+
+                        <fieldset class="donate-panel" id="donate-panel" hidden aria-describedby="f-amount-err">
+                            <legend>Choose an amount (INR)</legend>
+                            <div class="amounts" data-group="amount">
+                                <div class="choice"><input type="radio" id="a1" name="amount" value="500" /><label
+                                        for="a1">₹500</label></div>
+                                <div class="choice"><input type="radio" id="a2" name="amount" value="1500"
+                                        checked /><label for="a2">₹1,500</label></div>
+                                <div class="choice"><input type="radio" id="a3" name="amount" value="5000" /><label
+                                        for="a3">₹5,000</label></div>
+                                <div class="choice"><input type="radio" id="a4" name="amount" value="custom" /><label
+                                        for="a4">Other</label></div>
+                            </div>
+                            <div class="field" id="custom-wrap" hidden>
+                                <label for="f-custom">Custom amount in INR</label>
+                                <input class="input" id="f-custom" name="custom" type="number" inputmode="numeric"
+                                    min="100" step="1" aria-describedby="f-custom-hint f-custom-err" />
+                                <p class="hint" id="f-custom-hint">Minimum ₹100.</p>
+                                <p class="error-msg" id="f-custom-err"></p>
+                            </div>
+                            <p class="error-msg" id="f-amount-err"></p>
+                        </fieldset>
+
+                        <div class="field">
+                            <div class="check">
+                                <input type="checkbox" id="f-updates" name="updates" />
+                                <label for="f-updates">Send me occasional campaign updates (optional).</label>
+                            </div>
+                            <div class="check">
+                                <input type="checkbox" id="f-consent" name="consent" required
+                                    aria-describedby="f-consent-err" />
+                                <label for="f-consent">I agree to the <a href="#privacy">privacy policy</a>. <span
+                                        class="req" aria-hidden="true">*</span></label>
+                            </div>
+                            <p class="error-msg" id="f-consent-err"></p>
+                        </div>
+
+                        <div class="form__submit">
+                            <button class="btn" type="submit"><span class="spinner" aria-hidden="true"></span><span
+                                    data-submit-label>Join the campaign</span> <span class="arrow"
+                                    aria-hidden="true">→</span></button>
+                            <p class="meta">Secure · Takes under a minute</p>
+                        </div>
+                    </form>
+
+                    <div class="success" id="form-success" hidden>
+                        <h3 tabindex="-1">Welcome aboard, <span data-success-name>friend</span>.</h3>
+                        <p class="lede">We’ve sent a confirmation to your inbox. Your first step is on its way.</p>
+                        <p><a class="link-u" href="#programs">See where your help goes</a></p>
+                    </div>
+                    <p class="visually-hidden" role="status" aria-live="polite" id="form-status"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== FAQ ===================== -->
+        <section class="section faq" id="faq" aria-labelledby="faq-title">
+            <div class="wrap faq__grid">
+                <div>
+                    <p class="eyebrow reveal">Questions</p>
+                    <h2 id="faq-title" class="display reveal" style="--i:1">Good <span class="serif">to</span> know</h2>
+                </div>
+                <div>
+                    <details>
+                        <summary>Where does my donation go?<span class="pm" aria-hidden="true"></span></summary>
+                        <div class="answer">
+                            <p>Donations fund river barriers, cleanup kits, mangrove nurseries and free school
+                                materials. We publish a quarterly breakdown of spending and results.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Why focus on rivers rather than the open ocean?<span class="pm"
+                                aria-hidden="true"></span></summary>
+                        <div class="answer">
+                            <p>Most ocean plastic starts on land and travels through waterways. Intercepting it upstream
+                                is simpler and cheaper than recovering fragments once they are dispersed at sea.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Why do plastic-pollution figures differ between sources?<span class="pm"
+                                aria-hidden="true"></span></summary>
+                        <div class="answer">
+                            <p>Researchers measure different things — plastic entering all aquatic ecosystems versus the
+                                ocean alone — using different models. We quote UNEP and link every figure so you can
+                                check it.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Can I volunteer if there’s no cleanup near me?<span class="pm"
+                                aria-hidden="true"></span></summary>
+                        <div class="answer">
+                            <p>Yes. Choose “Volunteer” in the form and we’ll send you a self-guided cleanup kit and
+                                logging guide so you can organise one locally.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Are the lesson plans really free?<span class="pm" aria-hidden="true"></span></summary>
+                        <div class="answer">
+                            <p>Yes — free for schools, libraries and community groups.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== RESOURCES ===================== -->
+        <section class="section resources" id="resources" aria-labelledby="res-title">
+            <div class="wrap">
+                <p class="eyebrow reveal">Go deeper</p>
+                <h2 id="res-title" class="display reveal" style="--i:1" data-size="xl">Read <span
+                        class="serif">the</span> science</h2>
+                <ul class="res-grid" role="list">
+                    <li><a class="res reveal"
+                            href="https://www.unep.org/topics/ocean-seas-and-coasts/ecosystem-degradation-pollution/plastic-pollution-marine-litter">
+                            <h3>Plastic pollution &amp; marine litter</h3>
+                            <p>UN Environment Programme overview of marine plastic.</p><span
+                                class="ext"><span>unep.org</span><span aria-hidden="true">↗</span></span>
+                        </a></li>
+                    <li><a class="res reveal" style="--i:1"
+                            href="https://oceanservice.noaa.gov/facts/ocean-oxygen.html">
+                            <h3>How much oxygen comes from the ocean?</h3>
+                            <p>NOAA explains the role of plankton.</p><span class="ext"><span>noaa.gov</span><span
+                                    aria-hidden="true">↗</span></span>
+                        </a></li>
+                    <li><a class="res reveal" style="--i:2"
+                            href="https://www.un.org/en/climatechange/science/climate-issues/ocean">
+                            <h3>The ocean and climate change</h3>
+                            <p>United Nations on the ocean as a climate ally.</p><span
+                                class="ext"><span>un.org</span><span aria-hidden="true">↗</span></span>
+                        </a></li>
+                    <li><a class="res reveal" style="--i:3" href="https://ourworldindata.org/plastic-pollution">
+                            <h3>Plastic pollution data</h3>
+                            <p>Our World in Data charts and research.</p><span
+                                class="ext"><span>ourworldindata.org</span><span aria-hidden="true">↗</span></span>
+                        </a></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="site-footer">
+        <div class="wrap">
+            <div class="footer-cta">
+                <p class="eyebrow">One last thing</p>
+                <h2 class="display">The tide turns <span class="serif">with</span> you.</h2>
+                <div class="hero__ctas">
+                    <a class="btn" href="#act">Join the campaign <span class="arrow" aria-hidden="true">→</span></a>
+                    <a class="btn btn--ghost" href="mailto:hello@cleanoceans">Partner with us</a>
+                </div>
+            </div>
+
+            <div class="footer-cols">
+                <div>
+                    <h3 id="news-h">Newsletter</h3>
+                    <form class="news" id="news-form" novalidate aria-labelledby="news-h">
+                        <label for="n-email">Email address for quarterly impact reports</label>
+                        <div class="news__row">
+                            <input class="input" id="n-email" type="email" autocomplete="email" required
+                                aria-describedby="n-email-err" />
+                            <button class="btn btn--sm" type="submit">Subscribe</button>
+                        </div>
+                        <p class="error-msg" id="n-email-err"></p>
+                        <p class="visually-hidden" role="status" aria-live="polite" id="news-status"></p>
+                    </form>
+                </div>
+                <nav aria-label="Footer">
+                    <h3>Explore</h3>
+                    <ul role="list">
+                        <li><a class="link-u" href="#why">Why we exist</a></li>
+                        <li><a class="link-u" href="#programs">Our work</a></li>
+                        <li><a class="link-u" href="#goals">2027 targets</a></li>
+                        <li><a class="link-u" href="#faq">FAQ</a></li>
+                    </ul>
+                </nav>
+                <div>
+                    <h3>Contact &amp; help</h3>
+                    <ul role="list">
+                        <li><a class="link-u" href="mailto:hello@cleanoceans">hello@cleanoceans</a></li>
+                        <li><a class="link-u" href="#privacy" id="privacy">Privacy policy</a></li>
+                        <li><a class="link-u" href="#accessibility">Accessibility statement</a></li>
+                        <li><a class="link-u" href="#credits">Media credits</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <p class="wordmark display" aria-hidden="true"><span>Clean&nbsp;Oceans</span></p>
+
+        <div class="wrap footer-base">
+            <p class="meta">© 2026 Clean Oceans Campaign — a non-profit initiative</p>
+            <button class="to-top" type="button" data-to-top>Back to top <span aria-hidden="true">↑</span></button>
+        </div>
+    </footer>
+
+    <!-- Lenis smooth scroll (optional enhancement — site works fully without it). Pin a version & add SRI in production. -->
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+    <script>
+        /* Clean Oceans Campaign — interaction layer
+           Progressive enhancement: every feature below is optional. With JS disabled the page is fully readable and usable. */
+        (function () {
+            'use strict';
+
+            var root = document.documentElement;
+            var body = document.body;
+            var $ = function (s, c) { return (c || document).querySelector(s); };
+            var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+            var motionOn = function () { return root.dataset.motion === 'on'; };
+            var listeners = []; // callbacks run when motion preference changes
+
+            /* ---------------------------------------------------------
+               1. Motion preference (WCAG 2.2.2 Pause/Stop/Hide, 2.3.3 Animation from Interactions)
+               --------------------------------------------------------- */
+            var toggle = $('[data-motion-toggle]');
+            function syncToggle() { if (toggle) toggle.setAttribute('aria-pressed', String(!motionOn())); }
+            function setMotion(state) {
+                root.dataset.motion = state;
+                try { localStorage.setItem('co-motion', state); } catch (e) { }
+                syncToggle();
+                listeners.forEach(function (fn) { fn(state === 'on'); });
+            }
+            syncToggle();
+            if (toggle) toggle.addEventListener('click', function () { setMotion(motionOn() ? 'off' : 'on'); });
+            // Follow OS changes live only if the user hasn't chosen explicitly
+            var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+            (mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(function (e) {
+                var stored = null; try { stored = localStorage.getItem('co-motion'); } catch (err) { }
+                if (!stored) { root.dataset.motion = e.matches ? 'off' : 'on'; syncToggle(); listeners.forEach(function (fn) { fn(!e.matches); }); }
+            });
+
+            /* Remove the decorative curtain once played so re-enabling motion never replays it */
+            var curtain = $('.curtain');
+            if (curtain) setTimeout(function () { curtain.remove(); }, motionOn() ? 1700 : 0);
+
+            /* ---------------------------------------------------------
+               2. Page ready (hero line reveal after the curtain)
+               --------------------------------------------------------- */
+            var readyDelay = motionOn() ? 850 : 0;
+            var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+            Promise.race([fontsReady, new Promise(function (r) { setTimeout(r, 1200); })]).then(function () {
+                setTimeout(function () { body.classList.add('is-ready'); }, readyDelay);
+            });
+
+            /* ---------------------------------------------------------
+               3. Smooth scrolling (Lenis) + accessible in-page navigation
+               --------------------------------------------------------- */
+            var lenis = null, rafId = null;
+            function startLenis() {
+                if (lenis || !window.Lenis || !motionOn()) return;
+                lenis = new window.Lenis({ duration: 1.1, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smoothWheel: true });
+                (function raf(time) { if (!lenis) return; lenis.raf(time); rafId = requestAnimationFrame(raf); })(performance.now());
+            }
+            function stopLenis() { if (lenis) { lenis.destroy(); lenis = null; cancelAnimationFrame(rafId); } }
+            window.addEventListener('load', startLenis);
+            listeners.push(function (on) { on ? startLenis() : stopLenis(); });
+
+            function scrollToTarget(target) {
+                var offset = -((parseInt(getComputedStyle(root).getPropertyValue('--header-h'), 10) || 72) + 16);
+                if (lenis) lenis.scrollTo(target, { offset: offset });
+                else {
+                    var y = target.getBoundingClientRect().top + window.pageYOffset + offset;
+                    window.scrollTo({ top: target === body ? 0 : y, behavior: motionOn() ? 'smooth' : 'auto' });
+                }
+                // Move keyboard/screen-reader focus to the destination (WCAG 2.4.3 Focus Order)
+                if (target !== body) {
+                    if (!target.hasAttribute('tabindex') && !/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(target.tagName)) target.setAttribute('tabindex', '-1');
+                    target.focus({ preventScroll: true });
+                }
+            }
+            document.addEventListener('click', function (e) {
+                var a = e.target.closest('a[href^="#"]');
+                if (!a) return;
+                var id = a.getAttribute('href').slice(1);
+                if (!id) return;
+                var target = id === 'top' ? body : document.getElementById(id);
+                if (!target || a.classList.contains('skip-link')) return; // native skip-link behaviour is most robust
+                e.preventDefault();
+                if (menu && menu.open) menu.close();
+                scrollToTarget(target);
+                if (id !== 'top') history.replaceState(null, '', '#' + id);
+            });
+
+            /* ---------------------------------------------------------
+               4. Header — condense on scroll, hide on scroll-down, always visible on focus
+               --------------------------------------------------------- */
+            var header = $('.site-header'), lastY = 0, ticking = false;
+            function onScroll() {
+                var y = window.pageYOffset;
+                header.classList.toggle('is-scrolled', y > 24);
+                var menuOpen = menu && menu.open;
+                header.classList.toggle('is-hidden', y > 480 && y > lastY && !menuOpen && !header.contains(document.activeElement));
+                lastY = y; ticking = false;
+            }
+            window.addEventListener('scroll', function () { if (!ticking) { requestAnimationFrame(onScroll); ticking = true; } }, { passive: true });
+
+            /* Active section → aria-current on nav links */
+            var navLinks = $$('.nav a, .menu nav a');
+            if ('IntersectionObserver' in window) {
+                var secObs = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (en) {
+                        if (!en.isIntersecting) return;
+                        navLinks.forEach(function (l) {
+                            if (l.getAttribute('href') === '#' + en.target.id) l.setAttribute('aria-current', 'location');
+                            else l.removeAttribute('aria-current');
+                        });
+                    });
+                }, { rootMargin: '-45% 0px -50% 0px' });
+                ['why', 'journey', 'programs', 'film', 'faq'].forEach(function (id) { var el = document.getElementById(id); if (el) secObs.observe(el); });
+            }
+
+            /* ---------------------------------------------------------
+               5. Mobile menu (native <dialog>: focus containment + Esc built-in)
+               --------------------------------------------------------- */
+            var menu = $('#menu'), menuOpener = $('[data-menu-open]');
+            if (menu && menuOpener) {
+                menuOpener.addEventListener('click', function () { menu.showModal(); menuOpener.setAttribute('aria-expanded', 'true'); if (lenis) lenis.stop(); });
+                $('[data-menu-close]', menu).addEventListener('click', function () { menu.close(); });
+                menu.addEventListener('close', function () { menuOpener.setAttribute('aria-expanded', 'false'); if (lenis) lenis.start(); if (document.activeElement === body || menu.contains(document.activeElement)) menuOpener.focus(); });
+                menuOpener.setAttribute('aria-expanded', 'false');
+                window.matchMedia('(min-width: 960px)').addEventListener('change', function (e) { if (e.matches && menu.open) menu.close(); });
+            }
+
+            /* ---------------------------------------------------------
+               6. Scroll reveals + progress bars
+               --------------------------------------------------------- */
+            var reveals = $$('.reveal');
+            if ('IntersectionObserver' in window) {
+                var rObs = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('is-in'); rObs.unobserve(en.target); } });
+                }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+                reveals.forEach(function (el) { rObs.observe(el); });
+            } else reveals.forEach(function (el) { el.classList.add('is-in'); });
+            listeners.push(function (on) { if (!on) reveals.forEach(function (el) { el.classList.add('is-in'); }); });
+
+            /* ---------------------------------------------------------
+               7. Manifesto — words light up with scroll progress (decorative; final state is full contrast)
+               --------------------------------------------------------- */
+            var lit = $('[data-lit-words]');
+            if (lit) {
+                var words = lit.textContent.trim().split(/\s+/);
+                lit.innerHTML = words.map(function (w) { return '<span class="w">' + w.replace(/</g, '&lt;') + '</span>'; }).join(' ');
+                var spans = $$('.w', lit);
+                var updateLit = function () {
+                    if (!motionOn()) return;
+                    var r = lit.getBoundingClientRect(), vh = window.innerHeight;
+                    var p = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.35)));
+                    var n = Math.round(p * spans.length);
+                    spans.forEach(function (s, i) { s.classList.toggle('lit', i < n); });
+                };
+                window.addEventListener('scroll', function () { requestAnimationFrame(updateLit); }, { passive: true });
+                updateLit();
+            }
+
+            /* ---------------------------------------------------------
+               8. Counters — visual only; screen readers get the final value from visually-hidden text
+               --------------------------------------------------------- */
+            var counters = $$('[data-count]');
+            if ('IntersectionObserver' in window) {
+                var cObs = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (en) {
+                        if (!en.isIntersecting) return;
+                        cObs.unobserve(en.target);
+                        if (!motionOn()) return;
+                        var el = $('.num', en.target), to = +en.target.dataset.count, t0 = performance.now(), dur = 1400;
+                        (function tick(t) {
+                            var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 4);
+                            el.textContent = Math.round(to * e);
+                            if (p < 1) requestAnimationFrame(tick);
+                        })(t0);
+                    });
+                }, { threshold: 0.6 });
+                counters.forEach(function (c) { cObs.observe(c); });
+            }
+
+            /* ---------------------------------------------------------
+               9. Journey — active step drives the diagram
+               --------------------------------------------------------- */
+            var steps = $$('.step'), prog = $('[data-jv-progress]'), nodes = $$('[data-jv-node]');
+            if (prog && 'IntersectionObserver' in window) {
+                var len = prog.getTotalLength();
+                prog.style.strokeDasharray = len; prog.style.strokeDashoffset = len;
+                var stops = [0, 0.36, 0.78, 1];
+                var jObs = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (en) {
+                        if (!en.isIntersecting) return;
+                        var i = +en.target.dataset.step;
+                        steps.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
+                        nodes.forEach(function (n, k) { n.classList.toggle('on', k <= i); });
+                        prog.style.strokeDashoffset = len * (1 - stops[i]);
+                    });
+                }, { rootMargin: '-45% 0px -45% 0px' });
+                steps.forEach(function (s) { jObs.observe(s); });
+            }
+
+            /* ---------------------------------------------------------
+               10. Spotlight cards (pointer only — no keyboard dependency)
+               --------------------------------------------------------- */
+            $$('[data-spotlight]').forEach(function (card) {
+                card.addEventListener('pointermove', function (e) {
+                    var r = card.getBoundingClientRect();
+                    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+                });
+            });
+
+            /* ---------------------------------------------------------
+               11. Hero canvas — layered swell lines + drifting particles, mouse-reactive
+                   Paused off-screen, in background tabs and when motion is off (static frame drawn instead).
+               --------------------------------------------------------- */
+            var cvs = $('[data-waves]');
+            if (cvs && cvs.getContext) {
+                var ctx = cvs.getContext('2d'), W = 0, H = 0, dpr = 1, t = 0, running = false, visible = true, raf = null;
+                var mouse = { x: -9999, y: -9999, tx: -9999 };
+                var parts = [];
+                function resize() {
+                    dpr = Math.min(window.devicePixelRatio || 1, 2);
+                    W = cvs.clientWidth; H = cvs.clientHeight;
+                    cvs.width = W * dpr; cvs.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                    var count = Math.round(Math.min(90, W / 18));
+                    parts = [];
+                    for (var i = 0; i < count; i++) parts.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.8 + .4, v: Math.random() * .25 + .05, coral: Math.random() < .12 });
+                    if (!running) draw();
+                }
+                function draw() {
+                    ctx.clearRect(0, 0, W, H);
+                    mouse.x += (mouse.tx - mouse.x) * .08;
+                    var lines = W < 600 ? 10 : 16;
+                    for (var l = 0; l < lines; l++) {
+                        var base = H * .28 + (H * .7) * (l / lines);
+                        var amp = 10 + l * 1.6, freq = .0028 + l * .00012, speed = .6 + l * .04;
+                        ctx.beginPath();
+                        for (var x = 0; x <= W; x += 8) {
+                            var d = Math.abs(x - mouse.x), bump = d < 260 ? (1 - d / 260) * 26 : 0;
+                            var y = base + Math.sin(x * freq + t * speed + l) * (amp + bump) + Math.sin(x * freq * 2.3 - t * .7) * 4;
+                            x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+                        }
+                        ctx.strokeStyle = 'rgba(87,214,203,' + (0.08 + (l / lines) * 0.3) + ')';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                    for (var i = 0; i < parts.length; i++) {
+                        var p = parts[i];
+                        if (running) { p.y -= p.v; p.x += Math.sin(t + i) * .15; if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; } }
+                        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                        ctx.fillStyle = p.coral ? 'rgba(255,122,89,.75)' : 'rgba(238,244,241,.35)';
+                        ctx.fill();
+                    }
+                }
+                function loop() { if (!running) return; t += .012; draw(); raf = requestAnimationFrame(loop); }
+                function update() {
+                    var should = motionOn() && visible && !document.hidden;
+                    if (should && !running) { running = true; loop(); }
+                    else if (!should && running) { running = false; cancelAnimationFrame(raf); draw(); }
+                }
+                window.addEventListener('resize', function () { clearTimeout(cvs._r); cvs._r = setTimeout(resize, 150); });
+                document.addEventListener('visibilitychange', update);
+                cvs.parentElement.addEventListener('pointermove', function (e) { var r = cvs.getBoundingClientRect(); mouse.tx = e.clientX - r.left; });
+                cvs.parentElement.addEventListener('pointerleave', function () { mouse.tx = -9999; });
+                if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { visible = en[0].isIntersecting; update(); }).observe(cvs);
+                listeners.push(update);
+                resize(); update();
+            }
+
+            /* ---------------------------------------------------------
+               12. Film dialog — lazy-loads the video only on demand
+               --------------------------------------------------------- */
+            var player = $('#player'), filmOpen = $('[data-film-open]'), video = $('[data-film-video]');
+            if (player && filmOpen && video) {
+                filmOpen.addEventListener('click', function () {
+                    var src = $('source[data-src]', video);
+                    if (src && !src.src) {
+                        src.src = src.dataset.src;
+                        var trk = $('track[data-src]', video); if (trk) trk.src = trk.dataset.src;
+                        video.load();
+                    }
+                    player.showModal(); if (lenis) lenis.stop();
+                });
+                $('[data-film-close]', player).addEventListener('click', function () { player.close(); });
+                player.addEventListener('click', function (e) { if (e.target === player) player.close(); }); // backdrop click
+                player.addEventListener('close', function () { video.pause(); if (lenis) lenis.start(); filmOpen.focus(); });
+            }
+
+            /* ---------------------------------------------------------
+               13. Join form — accessible validation (WCAG 3.3.1, 3.3.2, 3.3.3, 4.1.3)
+               --------------------------------------------------------- */
+            var form = $('#join-form');
+            if (form) {
+                var summary = $('#error-summary'), submitted = false;
+                var donatePanel = $('#donate-panel'), customWrap = $('#custom-wrap'), customInput = $('#f-custom');
+                var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+                form.addEventListener('change', function (e) {
+                    if (e.target.name === 'help') donatePanel.hidden = e.target.value !== 'donate';
+                    if (e.target.name === 'amount') customWrap.hidden = e.target.value !== 'custom';
+                    if (submitted) validate(false);
+                });
+                form.addEventListener('input', function () { if (submitted) validate(false); });
+
+                function helpValue() { var c = $('input[name="help"]:checked', form); return c ? c.value : ''; }
+                function rules() {
+                    var out = [];
+                    var name = form.elements['name'].value.trim(), email = form.elements['email'].value.trim();
+                    out.push({ id: 'f-name', err: 'f-name-err', msg: name ? '' : 'Enter your first name' });
+                    out.push({ id: 'f-email', err: 'f-email-err', msg: !email ? 'Enter your email address' : (!EMAIL.test(email) ? 'Enter an email address in the correct format, like name@example.org' : '') });
+                    out.push({ id: 'h-vol', group: 'f-help', err: 'f-help-err', msg: helpValue() ? '' : 'Choose how you would like to help' });
+                    var amt = $('input[name="amount"]:checked', form);
+                    if (helpValue() === 'donate' && amt && amt.value === 'custom') {
+                        var v = parseFloat(customInput.value);
+                        out.push({ id: 'f-custom', err: 'f-custom-err', msg: !customInput.value ? 'Enter a donation amount' : (isNaN(v) || v < 100 ? 'Enter an amount of ₹100 or more' : '') });
+                    } else { $('#f-custom-err').textContent = ''; customInput.removeAttribute('aria-invalid'); }
+                    out.push({ id: 'f-consent', err: 'f-consent-err', msg: form.elements['consent'].checked ? '' : 'Agree to the privacy policy to continue' });
+                    return out;
+                }
+                function validate(showSummary) {
+                    var list = rules(), errors = list.filter(function (r) { return r.msg; });
+                    list.forEach(function (r) {
+                        $('#' + r.err).textContent = r.msg;
+                        var target = r.group ? $('#' + r.group) : $('#' + r.id);
+                        if (r.msg) target.setAttribute('aria-invalid', 'true'); else target.removeAttribute('aria-invalid');
+                    });
+                    var ul = $('ul', summary);
+                    ul.innerHTML = errors.map(function (r) { return '<li><a href="#' + r.id + '" data-err-link>' + r.msg + '</a></li>'; }).join('');
+                    summary.hidden = errors.length === 0;
+                    if (showSummary && errors.length) summary.focus();
+                    return errors.length === 0;
+                }
+                summary.addEventListener('click', function (e) {
+                    var a = e.target.closest('[data-err-link]'); if (!a) return;
+                    e.preventDefault(); e.stopPropagation();
+                    var el = document.getElementById(a.getAttribute('href').slice(1));
+                    el.focus(); el.scrollIntoView({ block: 'center', behavior: motionOn() ? 'smooth' : 'auto' });
+                }, true);
+
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault(); submitted = true;
+                    if (!validate(true)) return;
+                    var btn = $('button[type="submit"]', form), label = $('[data-submit-label]', btn);
+                    btn.setAttribute('aria-busy', 'true'); btn.disabled = true; label.textContent = 'Sending…';
+                    $('#form-status').textContent = 'Submitting your details.';
+                    // TODO: replace with a real endpoint, e.g. fetch('/api/join', { method: 'POST', body: new FormData(form) })
+                    setTimeout(function () {
+                        $('[data-success-name]').textContent = form.elements['name'].value.trim();
+                        form.hidden = true;
+                        var s = $('#form-success'); s.hidden = false;
+                        $('h3', s).focus();
+                        $('#form-status').textContent = 'Thank you. You have joined the Clean Oceans Campaign.';
+                    }, 900);
+                });
+            }
+
+            /* Newsletter */
+            var news = $('#news-form');
+            if (news) news.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var input = $('#n-email'), err = $('#n-email-err'), v = input.value.trim();
+                var msg = !v ? 'Enter your email address' : (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? 'Enter an email address in the correct format, like name@example.org' : '');
+                err.textContent = msg;
+                if (msg) { input.setAttribute('aria-invalid', 'true'); input.focus(); return; }
+                input.removeAttribute('aria-invalid'); input.value = '';
+                $('#news-status').textContent = 'Subscribed. Look out for our next impact report.';
+                err.textContent = '';
+                var b = $('button', news); b.textContent = 'Subscribed ✓';
+                setTimeout(function () { b.textContent = 'Subscribe'; }, 4000);
+            });
+
+            /* Back to top — moves focus to the start of the page too */
+            var toTop = $('[data-to-top]');
+            if (toTop) toTop.addEventListener('click', function () {
+                if (lenis) lenis.scrollTo(0); else window.scrollTo({ top: 0, behavior: motionOn() ? 'smooth' : 'auto' });
+                $('.brand').focus({ preventScroll: true });
+            });
+        })();
+
+    </script>
+</body>
+
+</html>
